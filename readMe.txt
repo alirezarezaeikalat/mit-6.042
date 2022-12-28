@@ -397,4 +397,8 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
 22. Euler's theorem: if gcd(n, k) = 1 or n and k are relatively prime => k^Ø(n) ≋ 1 (mod n)
 
-    lemma 1: if gcd(n, k) = 1 then 
+    lemma 1: if gcd(n, k) = 1 then ak ≋ bk (mod n)  => a ≋ b (mod n)
+
+        proof: gcd(n, k) = 1 => sn + tk = 1 => n | (1 - tk) => tk ≋ 1  (mod n)  => t = k^-1 (mod n) => akk^-1 ≋ bkk^-1 (mod n) => a ≋ b (mod n)
+    
+    lemma 2: Suppose that 
