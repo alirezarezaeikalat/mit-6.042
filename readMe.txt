@@ -401,4 +401,25 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
         proof: gcd(n, k) = 1 => sn + tk = 1 => n | (1 - tk) => tk ≋ 1  (mod n)  => t = k^-1 (mod n) => akk^-1 ≋ bkk^-1 (mod n) => a ≋ b (mod n)
     
-    lemma 2: Suppose that 
+    lemma 2: Suppose that gcd(n, k) = 1
+        let k1, ..., kr integers in {1, 2, 3, ..., n - 1} that are relatively prime to n (r = Ø(n)) 
+
+        we can show X = {rem(k1.k, n), ..., rem(kr.k, n)} = {k1, k2, ..., kr} 
+
+        Part 1: X has r elements
+
+            assume rem(ki.k, n) = rem(kj.k, n) => kik ≋ kjk (mod n) => based on lemma 1: ki ≋ kj (mod n) => n | (ki - kj) 
+            => because ki and kj are in {1, 2, 3, ..., n - 1} => ki - kj = 0 => ki = kj
+
+        Part 2: X ⊆ {k1, k2, ..., kr}
+
+            based on Euclid's algorithm: gcd(n, ki.k) = gcd(n, rem(ki.k, n)) = 1 => rem(ki.k, n) must be in {k1, ... , kr} => X ⊆ {k1, ... , kr}
+    
+    Euler's proof: 
+
+        k1. k2. ... kr = rem(k1.k, n). rem(k2.k, n). ... rem(kr.k, n) ≋ k1.k . k2.k . ... kr.k (mod n)
+        
+        =>k1.k2. ... .kr ≋ k1.k2. ... .kr k^Ø(n) (mod n)
+        based on gcd(k1.k2. ... .kr, n) = 1 and lemma 1 => k^Ø(n) ≋ 1 (mod n)
+
+23. Fermat's little theorm: Suppose p is prime and k is in {1, 2, ... , p - 1} then k^(p-1) ≋ 1 (mod p)
