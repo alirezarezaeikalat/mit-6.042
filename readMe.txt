@@ -384,7 +384,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
             gcd(m, p) = 1 => sm + tp = 1 => tp = 1 - sm => p | (1 - sm) => sm ≋ 1 (mod p) => we can compute m^-1 for m (mod p)
 
-            => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p)
+            => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p) so we can decrupt any message
 
 
 /************ This section is about RSA algorithm *************/
@@ -423,3 +423,29 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
         based on gcd(k1.k2. ... .kr, n) = 1 and lemma 1 => k^Ø(n) ≋ 1 (mod n)
 
 23. Fermat's little theorm: Suppose p is prime and k is in {1, 2, ... , p - 1} then k^(p-1) ≋ 1 (mod p)
+
+    We can use this theorm to calculate the multiplicative inverse of k:
+
+        k.k^(p-2) = k^(p-1) ≋ 1 (mod p) so k^(p-2) is the multiplicative inverse of k (mod p) => k
+
+24. RSA algorithm: 
+    
+    --Beforehand--: A receiver creates a public and secret key and publish the public key, so anybody can encrypt the message using the public key
+
+        1. Generate two distinct primes p and q
+        2. let n = p.q
+        3. Select integer e such that gcd(e, (p-1)(q-1)) = 1 /// The public key is the pair (e,n)
+        4. Compute d such that d.e ≋ 1 (mod (p-1)(q-1))      /// The secret key is the pair (d,n)
+    
+    --Encryption--:
+        m` = rem(m^e, n)
+    
+    --Decryption--:
+
+        m = rem(m`^d, n)
+
+        --Proof--:
+
+            m` = rem(m^e,n) ≋ m^e (mod n)
+
+            m` ≋ m^e (mod n) => m`^d ≋ m^(e.d) (mod n)
