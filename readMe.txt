@@ -386,7 +386,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
             => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p) so we can decrupt any message
 
-
+codegen
 /************ This section is about RSA algorithm *************/
 
 [Definition]
@@ -436,7 +436,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
         2. let n = p.q
         3. Select integer e such that gcd(e, (p-1)(q-1)) = 1 /// The public key is the pair (e,n)
         4. Compute d such that d.e ≋ 1 (mod (p-1)(q-1))      /// The secret key is the pair (d,n)
-    
+        5. m is in the range (0, 1, ..., n-1)
     --Encryption--:
         m` = rem(m^e, n)
     
@@ -449,3 +449,59 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
             m` = rem(m^e,n) ≋ m^e (mod n)
 
             m` ≋ m^e (mod n) => m`^d ≋ m^(e.d) (mod n)
+
+            There exist an integer (r) that (using d.e ≋ 1 (mod (p-1)(q-1))): ed = 1 + r (p-1)(q-1)
+
+            => m`^d ≋ m . m ^(r (p-1)(q-1))  (mod n)
+
+                => m`^d ≋ m . m ^(r (p-1)(q-1)) (mod p) and m`^d ≋ m . m ^(r (p-1)(q-1)) (mod q)
+
+
+            Using Fermat's little theorm :
+
+                m^(p-1) ≋ 1 (mod p)
+                m^(q-1) ≋ 1 (mod q)
+
+                => m`^d ≋ m (mod p) => p | (m`^d - m)       => n | (m`^d - m) => m = rem(m`^d, n)
+                => m`^d ≋ m (mod q) => q | (m`^d - m)
+
+//////////////////////// Graph theory /////////////////////////
+
+25. Begining the graph theory definitions:
+
+Def: 
+    A graph G is a pair of sets (V,E) where:
+        V is a --none empty-- set of items called --Vertices or nodes--
+        E is a set of 2-items subsets of V called --Edges--
+
+Def: Two nodes xi and xj are --adjacent-- if {xi, xj} are in the E
+
+Def: an edge e = {xi, xj} is --incident-- to xi and xj
+
+Def: The number of edges incident to a node is the --degree of the node--
+
+Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple edges--
+
+26. Problem: Opposite genders
+
+    graph: 
+
+    nodes:
+
+    men             women
+
+    |V| = 300 M
+    |Vm| = 147.6 M
+    |Vw| = 152.4 M
+    |E| = ??
+
+    problem: ratio of average degree of men to average degree of women = Am / Aw
+
+    Am = average degree of opposite-gender partners for men
+    Aw = average degree of opposite-gender partners for women
+
+    Am = Sum(deg(x)) x is in Vm / |Vm| = |E| / |Vm|
+    Aw = Sum(deg(x)) x is in Vw / |Vw| = |E| / |Vw|
+
+    Am / Aw = |Vw| / |Vm| = 152.4 / 147.6 = 1.0325
+
