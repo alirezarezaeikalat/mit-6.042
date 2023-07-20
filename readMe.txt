@@ -386,7 +386,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
             => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p) so we can decrupt any message
 
-codegen
+
 /************ This section is about RSA algorithm *************/
 
 [Definition]
@@ -409,7 +409,7 @@ codegen
         Part 1: X has r elements
 
             assume rem(ki.k, n) = rem(kj.k, n) => kik ≋ kjk (mod n) => based on lemma 1: ki ≋ kj (mod n) => n | (ki - kj) 
-            => because ki and kj are in {1, 2, 3, ..., n - 1} => ki - kj = 0 => ki = kj
+            => because ki and kj are in {1, 2, 3, ..., n - 1} and they are smaller than n => ki - kj = 0 => ki = kj
 
         Part 2: X ⊆ {k1, k2, ..., kr}
 
@@ -490,9 +490,9 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
 
     men             women
 
-    |V| = 300 M
-    |Vm| = 147.6 M
-    |Vw| = 152.4 M
+    |V| = 300 M (The population of US)
+    |Vm| = 147.6 M (The population of men in US)
+    |Vw| = 152.4 M (The population of women in US)
     |E| = ??
 
     problem: ratio of average degree of men to average degree of women = Am / Aw
@@ -505,3 +505,71 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
 
     Am / Aw = |Vw| / |Vm| = 152.4 / 147.6 = 1.0325
 
+27. Graph --coloring problem--: 
+
+    assign a color to each node so adjacent nodes get different colors.
+
+    Def: The minimum value of K for which such a coloring exists -- Chromatic number --.
+
+    --This is NP complete problem and can not find a solution for this--
+
+    
+    a. --Basic coloring algorithm-- for G = (V, E)
+
+            1. Order the nodes v1, v2, ..., vn (Different ordering gives different results)
+
+            2. Order the colors c1, c2, ..., 
+
+            3. For i = 1, ..., n
+                    Assign the lowest legal color to vi 
+            
+    [ATTENTION]
+    This algorithms called --greedy algorithm--. You just think about one step at the time and move forward.
+
+        --thm--: If every node in G has degree <=d, the basic algorithm uses at most d + 1 color for G.
+
+            proof by induction: 
+
+                induction hypothesis: If every node in n node graph G has degree <=d, the basic algorithm uses at most d + 1 color for G.
+
+                Base case: n = 1 => 0 edges => degree = 0 => 1 color is work    => 1 color < d + 1
+
+                Inductive step: Assume P(n) is true for the induction 
+
+                    Let G (V, E) be any (n+1) graph node where d is the max degree
+                
+                Next step: 
+                    Order the nodes: V1, .. ,Vn, Vn+1
+
+                    new graph: V1, V2, ... Vn (The max degree is d)
+
+                    Basic algorithm uses d + 1 color for new graph
+
+                    Just color the detached node (because it has max d edges we can use the left color)
+
+28. --Definition--: A graph G = (V,E) called --bipartite-- if V can be split into VL and VR so that all the edges connect a node in 
+    VL to a node in VR
+
+
+29. --Definition--: Given graph G = (V, E) a --matching-- is a subgraph of G where every node has a degree of 1.
+
+30. --Definition--: A matching is --perfect-- if it has size |V|/2 (All the nodes are in the matching)
+
+31. --Definition--: The --weight-- of a matching M is the sum of the weights on the edges in the M.
+
+32. --Definition--: A --min-weight matching-- for G is a perfect matching for G with the minimum weight.
+
+34. Finding a min-weight or max-weight perfect matching is not a NP complete problem. However, it is really difficult to solve them.
+    We solve another problem the every node has a --preferences--.
+
+35. --Definition--: Given a matching M, x and y form a --rogue-- couple if they prefer each other over their mate.
+
+36. --Definition--: A matching is --stable-- if there are no rogue couple.
+
+37. --Stable marriage problem--:
+
+        - There are N boys and N girls
+        - Each boy has his own ranked list of all the girls 
+        - Each girl has her own ranked list of all the boys 
+    
+    The goal is to find a perfect matching without rogue couples.
