@@ -384,7 +384,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
             gcd(m, p) = 1 => sm + tp = 1 => tp = 1 - sm => p | (1 - sm) => sm ≋ 1 (mod p) => we can compute m^-1 for m (mod p)
 
-            => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p) so we can decrupt any message
+            => m`m^-1 ≋ k (mod p) => I know k (mod p) => we can compute k^-1 (mod p) so we can decrypt any message
 
 
 /************ This section is about RSA algorithm *************/
@@ -422,9 +422,9 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
         =>k1.k2. ... .kr ≋ k1.k2. ... .kr k^Ø(n) (mod n)
         based on gcd(k1.k2. ... .kr, n) = 1 and lemma 1 => k^Ø(n) ≋ 1 (mod n)
 
-23. Fermat's little theorm: Suppose p is prime and k is in {1, 2, ... , p - 1} then k^(p-1) ≋ 1 (mod p)
+23. Fermat's little theorem: Suppose p is prime and k is in {1, 2, ... , p - 1} then k^(p-1) ≋ 1 (mod p)
 
-    We can use this theorm to calculate the multiplicative inverse of k:
+    We can use this theorem to calculate the multiplicative inverse of k:
 
         k.k^(p-2) = k^(p-1) ≋ 1 (mod p) so k^(p-2) is the multiplicative inverse of k (mod p) => k
 
@@ -457,7 +457,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
                 => m`^d ≋ m . m ^(r (p-1)(q-1)) (mod p) and m`^d ≋ m . m ^(r (p-1)(q-1)) (mod q)
 
 
-            Using Fermat's little theorm :
+            Using Fermat's little theorem :
 
                 m^(p-1) ≋ 1 (mod p)
                 m^(q-1) ≋ 1 (mod q)
@@ -467,7 +467,7 @@ This way we change p(n) to more --powerful hypothesis--. This way we can solve t
 
 //////////////////////// Graph theory /////////////////////////
 
-25. Begining the graph theory definitions:
+25. Beginning the graph theory definitions:
 
 Def: 
     A graph G is a pair of sets (V,E) where:
@@ -559,8 +559,12 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
 
 32. --Definition--: A --min-weight matching-- for G is a perfect matching for G with the minimum weight.
 
+33. --Usually-- when we talk of weighted matching, we talk about the perfect matching.
+
 34. Finding a min-weight or max-weight perfect matching is not a NP complete problem. However, it is really difficult to solve them.
-    We solve another problem the every node has a --preferences--.
+    
+    [ATTENTION]
+    We solve another problem that every node has a --preferences--.
 
 35. --Definition--: Given a matching M, x and y form a --rogue-- couple if they prefer each other over their mate.
 
@@ -573,3 +577,96 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
         - Each girl has her own ranked list of all the boys 
     
     The goal is to find a perfect matching without rogue couples.
+
+    -- Small example: 
+
+    C,B,E,A,D     boy 1           girl A   3,5,2,1,4
+    A,B,E,C,D     boy 2           girl B   5,2,1,4,3
+    D,C,B,A,E     boy 3           girl C   4,3,5,1,2
+    A,C,D,B,E     boy 4           girl D   1,2,3,4,5
+    A,B,D,E,C     boy 5           girl E   2,3,4,1,5
+
+
+    greedy algorithm: 
+
+            boy 1 -> girl C
+            boy 2 -> girl A 
+            boy 3 -> girl D 
+            boy 4 -> girl B    (boy 4 -> girl C is rogue couple) The greedy algorithm does not work
+            boy 5 -> girl E     
+    
+    -- Mating algorithm--:
+
+        - It takes place over several days
+        - In the morning each girl comes to the balcony
+        - Each boy go to the balcony of his favorite girl that has not been crossed out (If the boy has no girl in the list, that's done)
+        - In the afternoon, the girls who have at least one suitors, looks all the suitors, pick the favorite and says come back tomorrow
+            maybe I marry you 
+        - all other boys cross the girl out of their lists 
+        - In the night every boy who heard no, cross the girl out of their list 
+        - The one who heard maybe I marry you, goes to the same girl's balcony
+        - If we ever encounter the day, where every girl has one suitor, we will stop the algorithm.
+    
+        girls       Day 1       Day 2       Day 3       Day 4 
+        A           2,4,5       5           5           5
+        B           -           2           2, 1        2
+        C           1           1,4         4           4 
+        D           3           3           3           3 
+        E           -           -           -           1   
+
+                                --Cross off--
+        Boys 
+        1                       C           B
+        2           A 
+        3 
+        4           A  
+        5
+
+        -- Proof that it always create stable matching
+
+            We need to show: 
+
+                a. The algorithm terminates (& quick)
+                b. Every one gets married 
+                c. No rouge couple
+                d. Fairness (Is it good for boys or girls)
+            
+
+            -- Proof of a (The algorithm will be terminate in <= N^2 + 1): 
+
+                Thm 1: TMA terminates in <= N^2 + 1 days 
+
+                proof by contradiction: 
+                    Suppose TMA does not terminate in N^2+1
+
+                    Claim: if we don't terminate on a day, then some boy crosses a girl of his list. So, each day at least one girl will be crossed out
+                        of the list.
+
+                        N list with N names on them => <= N^2 crossed out so that is the contradiction
+                    
+            
+            -- proof of b: 
+                let p (invariant) = "If a girl G ever rejected a boy B, then G has a suitor who she prefers to B"
+
+                Lemma 1: P is an invariant for TML
+
+                proof by induction: 
+
+                    Base case: day 0, no one is rejected yet, so it is true
+
+                    Induction step: Assume P holds at day of d 
+
+                        Case 1: G reject B at day d+1, Then there was someone better => P it true at d+1
+                        Cast 2: G reject B before d+1, G had a better suitor at day d => 
+
+                Thm 2: Everyone is married in TMA:
+
+                    Proof by contradiction: We assume that some boy B is not married. 
+
+                    This means B was rejected by every girl, By lemma 1, it means every girl has a better suitor. That means every girl is married. 
+                    That means every boy got married. So, it is contradiction.  
+            
+
+            -- proof of c: 
+
+                 
