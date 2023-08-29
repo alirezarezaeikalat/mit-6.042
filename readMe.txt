@@ -505,6 +505,7 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
 
     Am / Aw = |Vw| / |Vm| = 152.4 / 147.6 = 1.0325
 
+/************** Coloring problem *********************/
 27. Graph --coloring problem--: 
 
     assign a color to each node so adjacent nodes get different colors.
@@ -551,6 +552,7 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
     VL to a node in VR
 
 
+/************ Matching problem ***********************/
 29. --Definition--: Given graph G = (V, E) a --matching-- is a subgraph of G where every node has a degree of 1.
 
 30. --Definition--: A matching is --perfect-- if it has size |V|/2 (All the nodes are in the matching)
@@ -595,7 +597,7 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
             boy 4 -> girl B    (boy 4 -> girl C is rogue couple) The greedy algorithm does not work
             boy 5 -> girl E     
     
-    -- Mating algorithm--:
+    -- Mating algorithm-- (Deterministic algorithm):
 
         - It takes place over several days
         - In the morning each girl comes to the balcony
@@ -645,7 +647,7 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
                         N list with N names on them => <= N^2 crossed out so that is the contradiction
                     
             
-            -- proof of b: 
+            -- proof of b Every one gets married : 
                 let p (invariant) = "If a girl G ever rejected a boy B, then G has a suitor who she prefers to B"
 
                 Lemma 1: P is an invariant for TML
@@ -667,6 +669,132 @@ Def: --Simple graph--, the graph is simple if it has no --loop-- or --multiple e
                     That means every boy got married. So, it is contradiction.  
             
 
-            -- proof of c: 
+            -- proof of c (No rouge couple): 
 
-                 
+                    Pf. Let assume Bob and Gail be any pair that are not married: 
+
+                        Case 1: Bob rejected by Gail: Based on lemma 1, Gail has a better suitor than Bob. => Bob and Gail are not a rouge couple.
+
+                        Case 2: Bob never rejected by Gail: Bob settled by a girl that she had higher priority than Gail. => Bob and Gail are not a 
+                            rouge couple
+            
+            -- Proof of d (It is really boy favoring):
+
+                    Definition: S set of all stable matchings    S is not empty 
+
+                    Definition: For each person P we define a --realm of possibility-- to be: 
+                                        {Q | exists m inside S, {P,Q} inside m}
+
+                                           --Pessimal mate--             --least favorite-- 
+                    Definition: A person's --Optimistic mate-- is his/her --favorite-- matching from the realm of possibility
+
+                    Thm: TMA made every boy with optimal mate. 
+
+                    Thm: TMA made every girl with Pessimal mate.
+
+/********************** Walk, Path, Tree, Spanning Tree *******************/
+
+38. --Walk and path--:
+
+        --Walk--: A walk is a sequence of vertices that are connected by edges.
+
+            -- Walk length--: is the number of edges in the walk. (K)
+        
+        --Path--: A path is a walk, where all vertices are different.
+
+
+        [ATTENTION]
+        Lemma 1: If exist a walk from u to v, then exist a path from u to v
+
+            --Definition--: The Well-Ordering Principle is a fundamental concept in set theory that states that every non-empty set of positive integers
+             (natural numbers) contains a smallest element.
+
+            -- proof: By well ordering principle: There exit a walk with minimum length.
+
+                We are going to prove this min length walk is actually a path.
+
+                proof by contradiction: 
+
+                    We assume the min walk is not a path. So, there are two or more similar vertices.
+
+                        case k = 0 => done 
+                        case k = 1 => done 
+                        case k >= 2 =>   
+
+                            suppose min walk is not a path: 
+
+                                There exist i != j   where vi = vj
+
+                                    some we can remove some part of the walk. so the min walk is a path
+
+39. --Connectivity: 
+    
+    --Definition--: u and v are connected if there is path from u to v
+
+    --Definition--: A graph is connected if every vertices pair is connected
+
+40. --Cycles and close walks--: 
+
+    --Definition--: A --close walk-- is a walk where the starting node and the end node are the same.
+
+    -- Definition--: If K>=3 is a close walk that are nodes are different we call it --cycle--.
+
+41. --Tree--: A --connected-- and --acyclic-- graph is a tree.
+
+            --Leaf--: is a node that has degree of one.
+
+42. Lemma: Any --connected-- subgraph of tree is a tree.
+
+        Proof by contradiction: Suppose the connected subgraph is not a tree. 
+
+                => it has cycle in it => the whole graph has a cycle  
+
+43. Lemma: --A tree with n vertices has n - 1 edges--.
+
+        Proof by induction: 
+
+            Base case: 0 done 
+
+            Assume a tree with n vertices has n - 1 edges 
+
+            Let T be a tree with n+1 vertices
+
+                if we want to remove a node from this tree and still be a tree we need to remove a leaf 
+
+                By lemma any connected subgraph of a tree is a tree. Based on induction the subgraph tree has n-1 edges. We also know 
+                    we removed a leaf and leaf has a degree of one. so the original tree has n edges. 
+
+
+44. --Spanning tree--: 
+
+            A spanning tree is a subgraph of --connected graph-- that --include all its vertices--
+
+45. Theorem: --Any connected graph has a spanning tree--: 
+
+            Proof by contradiction: We assume that we have a connected graph G that has no spanning tree.
+
+            Let T be a connected subgraph of G, we the same vertices of G, it has the smallest edges possible.
+
+            => T is not a spanning tree => has a cycle => So we can delete one of the edges of the cycle => contradict the smallest edge possible
+
+            We have to prove if we remove one edge (e) of the cycle, the graph is still connected:
+
+                we have investigate two case: 
+
+                    take any two nodes (x, y)
+
+                        a. case one: There is path between x and y, but e is not one edge of this path => we can remove e without removing the Connectivity
+
+                        b. case two: e is in the path between x and y: because of the cycle we are still connected after removal of e   
+
+46. --Minimum Spanning Tree of an edge-weight graph (MST)--: is the Spanning tree of G with the smallest possible sum of edge weights. 
+
+47. Algorithm to --create a MST-- from a connected graph: 
+
+        Grow a subgraph one edge at the time, at each step, we want to add the min weight edge that keeps the subgraph acyclic.
+
+        --Theorem--: For any connected weighted graph G, the algorithm creates a MST.
+
+        Proof of the theorem: 
+
+            lemma: Let S consist of the first m edges, by the algorithm, Then exists MST T=(V, E) such that S is the subsets of E
